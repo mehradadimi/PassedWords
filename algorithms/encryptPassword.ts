@@ -1,17 +1,18 @@
-import * as Crypto from "expo-crypto";
+import CryptoES from "crypto-es";
 
 /**
- * Encrypts the given password using SHA-256 algorithm
- * @param password
- * @returns Promise<string> - The encrypted (hashed) password
+ * Encrypts the given password using AES encryption.
+ * @param password - The password to encrypt.
+ * @param secretKey - The secret key used for encryption.
+ * @returns string - The encrypted password (cipher).
  */
-export const encryptPassword = async (password: string): Promise<string> => {
+export const encryptPassword = (
+  password: string,
+  secretKey: string
+): string => {
   try {
-    const encryptedPassword = await Crypto.digestStringAsync(
-      Crypto.CryptoDigestAlgorithm.SHA256,
-      password
-    );
-    return encryptedPassword;
+    const encrypted = CryptoES.AES.encrypt(password, secretKey).toString();
+    return encrypted;
   } catch (error) {
     throw new Error("Encryption failed: " + error.message);
   }
