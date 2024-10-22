@@ -9,17 +9,19 @@ import {
   useColorScheme,
 } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from "../firebaseConfig";
+import { app, db } from "../firebaseConfig";
 import { Colors } from "@/constants/Colors";
-import { useRouter } from "expo-router"; 
+import { useRouter } from "expo-router";
+import { doc, setDoc } from "firebase/firestore";
+import { generateSecretKey } from "@/algorithms/encryptPassword";
 
 export default function SignUpScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const colorScheme = useColorScheme() || "light";
-  const router = useRouter(); 
+  const router = useRouter();
 
-  const signUp = () => {
+  const signUp = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Please enter both email and password");
       return;
@@ -27,16 +29,27 @@ export default function SignUpScreen() {
 
     const auth = getAuth(app);
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        console.log(res);
-        Alert.alert("Success", "User created successfully!");
-        router.replace("/home/(tabs)");
-      })
-      .catch((err) => {
-        console.log(err);
-        Alert.alert("Error", err.message);
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const userId = res.user.uid;
+
+      const masterKey = generateSecretKey();
+
+      await setDoc(doc(db, "users", userId), {
+        email,
+        masterKey,
+        createdAt: new Date(),
       });
+
+      Alert.alert(
+        "Success",
+        "User created successfully and master key generated!"
+      );
+      router.replace("/home/(tabs)");
+    } catch (err) {
+      console.log(err);
+      Alert.alert("Error", err.message);
+    }
   };
 
   return (

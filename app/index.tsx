@@ -28,7 +28,7 @@ export default function SignInScreen() {
 
     const auth = getAuth(app);
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         Alert.alert("Success", "Signed in successfully!");
         router.replace("/home/(tabs)");
       })
