@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, TextInput, Button, Text, StyleSheet, Alert } from "react-native";
 import { encryptPassword } from "@/algorithms/encryptPassword";
-import { decryptPassword } from "@/algorithms/decryptPassword"; 
+import { decryptPassword } from "@/algorithms/decryptPassword";
 
 export default function TestEncryption() {
   const [password, setPassword] = useState("");

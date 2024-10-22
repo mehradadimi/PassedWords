@@ -11,11 +11,11 @@ import { ExternalLink } from "@/components/ExternalLink";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { getAuth, signOut } from "firebase/auth"; 
-import { useRouter } from "expo-router"; 
+import { getAuth, signOut } from "firebase/auth";
+import { useRouter } from "expo-router";
 
 export default function TabTwoScreen() {
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleLogout = () => {
     const auth = getAuth();

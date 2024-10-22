@@ -17,7 +17,7 @@ import { Colors } from "@/constants/Colors";
 export default function SignInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const colorScheme = useColorScheme() || "light"; 
+  const colorScheme = useColorScheme() || "light";
   const router = useRouter();
 
   const signIn = () => {

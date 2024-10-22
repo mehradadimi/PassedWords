@@ -17,7 +17,7 @@ export const generateSecretKey = (): string => {
  */
 export const encryptPassword = (
   password: string,
-  secretKey: string
+  secretKey: string,
 ): string => {
   try {
     const encrypted = CryptoES.AES.encrypt(password, secretKey).toString();

@@ -43,7 +43,7 @@ export default function SignUpScreen() {
 
       Alert.alert(
         "Success",
-        "User created successfully and master key generated!"
+        "User created successfully and master key generated!",
       );
       router.replace("/home/(tabs)");
     } catch (err) {
