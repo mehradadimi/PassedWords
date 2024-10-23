@@ -1,3 +1,4 @@
+import AddPasswordFormDialog from "@/components/dialogs/AddPassword";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import {
@@ -6,45 +7,52 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  Alert,
   Dimensions,
 } from "react-native";
 import { ListItem, Dialog } from "react-native-elements";
+import { Link } from "expo-router";
 
 const screenWidth = Dimensions.get("window").width;
 
 const list = [
-  { name: "All Items", icon: "list" },
-  { name: "Passwords", icon: "lock-closed" },
-  { name: "Secure Notes", icon: "document-lock" },
+  { name: "All Items", icon: "list", link: "/home/(tabs)/all-items" },
+  { name: "Passwords", icon: "lock-closed", link: "/home/(tabs)/passwords" }, // Link to passwords route
+  {
+    name: "Secure Notes",
+    icon: "document-lock",
+    link: "/home/(tabs)/secure-notes",
+  },
 ];
 
 export default function PasswordsScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isAddPasswordVisible, setAddPasswordVisible] = useState(false);
 
-  const handlePress = (itemName) => Alert.alert(`You pressed ${itemName}`);
   const handleAddPress = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
+  const showAddPasswordDialog = () => {
+    setModalVisible(false);
+    setAddPasswordVisible(true);
+  };
+  const closeAddPasswordDialog = () => setAddPasswordVisible(false);
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           {list.map((l, i) => (
-            <TouchableOpacity
-              key={i}
-              onPress={() => handlePress(l.name)}
-              activeOpacity={0.6}
-            >
-              <ListItem bottomDivider containerStyle={styles.listItem}>
-                <Ionicons size={28} style={styles.icon} name={l.icon} />
-                <ListItem.Content>
-                  <ListItem.Title style={styles.listItemTitle}>
-                    {l.name}
-                  </ListItem.Title>
-                </ListItem.Content>
-              </ListItem>
-            </TouchableOpacity>
+            <Link key={i} href={l.link} asChild>
+              <TouchableOpacity>
+                <ListItem bottomDivider containerStyle={styles.listItem}>
+                  <Ionicons size={28} style={styles.icon} name={l.icon} />
+                  <ListItem.Content>
+                    <ListItem.Title style={styles.listItemTitle}>
+                      {l.name}
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              </TouchableOpacity>
+            </Link>
           ))}
         </ScrollView>
 
@@ -63,7 +71,7 @@ export default function PasswordsScreen() {
         >
           <Dialog.Title title="Choose new" />
           <ListItem
-            onPress={() => Alert.alert("Add Password")}
+            onPress={showAddPasswordDialog}
             containerStyle={styles.dialogListItem}
             underlayColor="transparent"
           >
@@ -88,6 +96,11 @@ export default function PasswordsScreen() {
             </ListItem.Content>
           </ListItem>
         </Dialog>
+
+        <AddPasswordFormDialog
+          isVisible={isAddPasswordVisible}
+          onClose={closeAddPasswordDialog}
+        />
       </View>
     </SafeAreaView>
   );

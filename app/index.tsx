@@ -77,7 +77,7 @@ export default function SignInScreen() {
         secureTextEntry
       />
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: Colors[colorScheme].tint }]} // Button color based on theme
+        style={[styles.button, { backgroundColor: Colors[colorScheme].tint }]}
         onPress={signIn}
       >
         <Text
