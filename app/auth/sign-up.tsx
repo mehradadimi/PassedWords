@@ -14,6 +14,7 @@ import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import { doc, setDoc } from "firebase/firestore";
 import { generateSecretKey } from "@/algorithms/encryptPassword";
+import * as SecureStore from "expo-secure-store";
 
 export default function SignUpScreen() {
   const [email, setEmail] = useState("");
@@ -41,9 +42,16 @@ export default function SignUpScreen() {
         createdAt: new Date(),
       });
 
+      await SecureStore.setItemAsync("userId", userId, {
+        keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      });
+      await SecureStore.setItemAsync("masterKey", masterKey, {
+        keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      });
+
       Alert.alert(
         "Success",
-        "User created successfully and master key generated!",
+        "User created successfully and master key securely stored!"
       );
       router.replace("/home/(tabs)");
     } catch (err) {
