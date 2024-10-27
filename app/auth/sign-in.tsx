@@ -87,7 +87,7 @@ export default function SignInScreen() {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.replace("/sign-up")}>
+      <TouchableOpacity onPress={() => router.replace("auth/sign-up")}>
         <Text style={[styles.footerText, { color: Colors[colorScheme].text }]}>
           Don't have an account? Sign Up
         </Text>
