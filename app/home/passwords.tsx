@@ -13,7 +13,7 @@ import CryptoES from "crypto-es";
 
 export default function UserPasswordsScreen() {
   const [passwords, setPasswords] = useState([]);
-  const [masterKey, setMasterKey] = useState("");
+  const [masterKey, setMasterKey] = useState<string>("");
 
   useEffect(() => {
     const fetchPasswordsAndMasterKey = async () => {
@@ -50,7 +50,7 @@ export default function UserPasswordsScreen() {
     fetchPasswordsAndMasterKey();
   }, []);
 
-  const handlePasswordClick = (encryptedPassword) => {
+  const handlePasswordClick = (encryptedPassword: string) => {
     try {
       if (!masterKey) {
         Alert.alert("Error", "Master key not found.");

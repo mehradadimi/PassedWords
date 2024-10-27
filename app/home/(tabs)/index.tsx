@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
+  Alert,
 } from "react-native";
 import { ListItem, Dialog } from "react-native-elements";
 import { Link } from "expo-router";
@@ -15,12 +16,12 @@ import { Link } from "expo-router";
 const screenWidth = Dimensions.get("window").width;
 
 const list = [
-  { name: "All Items", icon: "list", link: "/home/(tabs)/all-items" },
-  { name: "Passwords", icon: "lock-closed", link: "/home/(tabs)/passwords" }, // Link to passwords route
+  { name: "All Items", icon: "list", link: "/home/all-items" },
+  { name: "Passwords", icon: "lock-closed", link: "/home/passwords" },
   {
     name: "Secure Notes",
     icon: "document-lock",
-    link: "/home/(tabs)/secure-notes",
+    link: "/home/secure-notes",
   },
 ];
 

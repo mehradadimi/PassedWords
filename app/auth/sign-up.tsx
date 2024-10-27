@@ -9,7 +9,7 @@ import {
   useColorScheme,
 } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app, db } from "../firebaseConfig";
+import { app, db } from "../../firebaseConfig";
 import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import { doc, setDoc } from "firebase/firestore";

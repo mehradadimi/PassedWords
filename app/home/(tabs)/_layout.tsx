@@ -21,10 +21,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Passwords",
+          title: "Home",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "list" : "list-outline"}
+              name={focused ? "home" : "home-outline"}
               color={color}
             />
           ),
