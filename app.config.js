@@ -8,5 +8,8 @@ export default ({ config }) => ({
     firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
     firebaseAppId: process.env.FIREBASE_APP_ID,
     firebaseMeasurementId: process.env.FIREBASE_MEASUREMENT_ID,
+    eas: {
+      projectId: "8013c64b-1a06-41ab-86a9-e90b9022cdf9",
+    },
   },
 });

@@ -1,5 +1,16 @@
 {
   "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "8013c64b-1a06-41ab-86a9-e90b9022cdf9"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8013c64b-1a06-41ab-86a9-e90b9022cdf9"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "name": "Passedwords",
     "slug": "Passedwords",
     "version": "1.0.0",
@@ -16,7 +27,8 @@
       "supportsTablet": true,
       "config": {
         "usesNonExemptEncryption": false
-      }
+      },
+      "bundleIdentifier": "com.example.passedWords"
     },
     "android": {
       "adaptiveIcon": {
