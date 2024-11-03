@@ -8,10 +8,10 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
-  Alert,
 } from "react-native";
 import { ListItem, Dialog } from "react-native-elements";
 import { Link } from "expo-router";
+import AddNoteFormDialog from "@/components/dialogs/AddNote";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -28,6 +28,7 @@ const list = [
 export default function PasswordsScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isAddPasswordVisible, setAddPasswordVisible] = useState(false);
+  const [isAddNoteVisible, setAddNoteVisible] = useState(false);
 
   const handleAddPress = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
@@ -35,7 +36,13 @@ export default function PasswordsScreen() {
     setModalVisible(false);
     setAddPasswordVisible(true);
   };
+
+  const showAddNoteDialog = () => {
+    setModalVisible(false);
+    setAddNoteVisible(true);
+  };
   const closeAddPasswordDialog = () => setAddPasswordVisible(false);
+  const closeAddNoteDialog = () => setAddNoteVisible(false);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -85,7 +92,7 @@ export default function PasswordsScreen() {
           </ListItem>
 
           <ListItem
-            onPress={() => Alert.alert("Add Secure Note")}
+            onPress={showAddNoteDialog}
             containerStyle={[styles.dialogListItem, styles.dialogItemMargin]}
             underlayColor="transparent"
           >
@@ -101,6 +108,10 @@ export default function PasswordsScreen() {
         <AddPasswordFormDialog
           isVisible={isAddPasswordVisible}
           onClose={closeAddPasswordDialog}
+        />
+        <AddNoteFormDialog
+          isVisible={isAddNoteVisible}
+          onClose={closeAddNoteDialog}
         />
       </View>
     </SafeAreaView>

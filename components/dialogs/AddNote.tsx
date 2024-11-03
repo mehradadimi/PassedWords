@@ -14,12 +14,11 @@ import { db, auth } from "../../firebaseConfig";
 
 const screenWidth = Dimensions.get("window").width;
 
-const AddPasswordFormDialog = ({ isVisible, onClose }) => {
-  const [website, setWebsite] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const AddNoteFormDialog = ({ isVisible, onClose }) => {
+  const [note, setNote] = useState("");
+  const [name, setName] = useState("");
 
-  const handleAddPassword = async () => {
+  const handleAddNote = async () => {
     try {
       const currentUser = auth.currentUser;
 
@@ -40,29 +39,24 @@ const AddPasswordFormDialog = ({ isVisible, onClose }) => {
       const userData = userDoc.data();
       const masterKey = userData.masterKey;
 
-      // Encrypt the password using the master key
-      const encryptedPassword = CryptoES.AES.encrypt(
-        password,
-        masterKey
-      ).toString();
+      // Encrypt the note using the master key
+      const encryptedNote = CryptoES.AES.encrypt(note, masterKey).toString();
 
-      const passwordDocRef = doc(collection(db, "users", userId, "passwords"));
+      const noteDocRef = doc(collection(db, "users", userId, "notes"));
 
-      await setDoc(passwordDocRef, {
-        website: website,
-        username: username,
-        encryptedPassword: encryptedPassword,
+      await setDoc(noteDocRef, {
+        name: name,
+        note: note,
+        encryptedNote: encryptedNote,
         createdAt: new Date(),
       });
 
-      console.log("Password added successfully!");
+      console.log("Note added successfully!");
 
       onClose();
-      setPassword("");
-      setUsername("");
-      setWebsite("");
+      setNote("");
     } catch (error) {
-      console.error("Error adding password: ", error);
+      console.error("Error adding note: ", error);
     }
   };
 
@@ -72,44 +66,27 @@ const AddPasswordFormDialog = ({ isVisible, onClose }) => {
       onBackdropPress={onClose}
       overlayStyle={styles.dialogContainer}
     >
-      <Dialog.Title title="Add New Password" />
+      <Dialog.Title title="Add New Secure Note" />
 
       <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Website</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter website"
+          placeholder="Enter a name for your note"
           placeholderTextColor="black"
-          value={website}
-          onChangeText={setWebsite}
+          value={name}
+          onChangeText={setName}
         />
-      </View>
-
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Username</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter username"
+          placeholder="Enter your note"
           placeholderTextColor="black"
-          value={username}
-          onChangeText={setUsername}
+          value={note}
+          onChangeText={setNote}
+          multiline
         />
       </View>
-
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Password</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter password"
-          placeholderTextColor="black"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-      </View>
-
-      <TouchableOpacity style={styles.button} onPress={handleAddPassword}>
-        <Text style={styles.buttonText}>Add Password</Text>
+      <TouchableOpacity style={styles.button} onPress={handleAddNote}>
+        <Text style={styles.buttonText}>Add Note</Text>
       </TouchableOpacity>
     </Dialog>
   );
@@ -130,8 +107,9 @@ const styles = StyleSheet.create({
     color: "black",
   },
   input: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
     padding: 10,
     width: "100%",
     color: "black",
@@ -150,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddPasswordFormDialog;
+export default AddNoteFormDialog;
