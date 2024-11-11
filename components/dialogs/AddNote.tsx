@@ -77,7 +77,7 @@ const AddNoteFormDialog = ({ isVisible, onClose }) => {
           onChangeText={setName}
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputMultiLine}
           placeholder="Enter your note"
           placeholderTextColor="black"
           value={note}
@@ -113,6 +113,18 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "100%",
     color: "black",
+    marginBottom: 10,
+  },
+  inputMultiLine: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    width: "100%",
+    color: "black",
+    marginBottom: 10,
+    height: 100,
+    textAlignVertical: "top",
   },
   button: {
     backgroundColor: "#4CAF50",

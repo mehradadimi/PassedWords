@@ -10,6 +10,7 @@ import {
 import { getDocs, collection, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "@/firebaseConfig";
 import CryptoES from "crypto-es";
+import NotesButton from "@/components/notes-button/NotesButton";
 
 export default function UserNotesScreen() {
   const [notes, setNotes] = useState([]);
@@ -50,7 +51,7 @@ export default function UserNotesScreen() {
     fetchNotesAndMasterKey();
   }, []);
 
-  const handleNotesClick = (encryptedNotes: string) => {
+  const handleNotesClick = (item) => {
     try {
       if (!masterKey) {
         Alert.alert("Error", "Master key not found.");
@@ -58,11 +59,11 @@ export default function UserNotesScreen() {
       }
 
       const decryptedNotes = CryptoES.AES.decrypt(
-        encryptedNotes,
+        item.encryptedNote,
         masterKey
       ).toString(CryptoES.enc.Utf8);
 
-      Alert.alert("Decrypted Notes", decryptedNotes);
+      Alert.alert("Decrypted Note", decryptedNotes);
     } catch (error) {
       console.error("Error decrypting notes: ", error);
       Alert.alert("Error", "Could not decrypt the note.");
@@ -76,13 +77,7 @@ export default function UserNotesScreen() {
         data={notes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.item}
-            onPress={() => handleNotesClick(item.encryptedNote)}
-          >
-            <Text style={styles.text}>Name: {item.name}</Text>
-            <Text style={styles.text}>Tap to reveal note</Text>
-          </TouchableOpacity>
+          <NotesButton item={item} onPress={handleNotesClick} />
         )}
       />
     </View>

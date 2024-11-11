@@ -10,6 +10,7 @@ import {
 import { getDocs, collection, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "@/firebaseConfig";
 import CryptoES from "crypto-es";
+import PasswordsButton from "@/components/passwords-button/PasswordsButton";
 
 export default function UserPasswordsScreen() {
   const [passwords, setPasswords] = useState([]);
@@ -50,7 +51,7 @@ export default function UserPasswordsScreen() {
     fetchPasswordsAndMasterKey();
   }, []);
 
-  const handlePasswordClick = (encryptedPassword: string) => {
+  const handlePasswordClick = (item) => {
     try {
       if (!masterKey) {
         Alert.alert("Error", "Master key not found.");
@@ -58,7 +59,7 @@ export default function UserPasswordsScreen() {
       }
 
       const decryptedPassword = CryptoES.AES.decrypt(
-        encryptedPassword,
+        item.encryptedPassword,
         masterKey
       ).toString(CryptoES.enc.Utf8);
 
@@ -76,14 +77,7 @@ export default function UserPasswordsScreen() {
         data={passwords}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.item}
-            onPress={() => handlePasswordClick(item.encryptedPassword)}
-          >
-            <Text style={styles.text}>Website: {item.website}</Text>
-            <Text style={styles.text}>Username: {item.username}</Text>
-            <Text style={styles.text}>Tap to reveal password</Text>
-          </TouchableOpacity>
+          <PasswordsButton item={item} onPress={handlePasswordClick} />
         )}
       />
     </View>
@@ -95,6 +89,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: "white",
+    overflow: "scroll",
   },
   title: {
     fontSize: 24,

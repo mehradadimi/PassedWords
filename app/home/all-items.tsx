@@ -10,6 +10,8 @@ import {
 import { getDocs, collection, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "@/firebaseConfig";
 import CryptoES from "crypto-es";
+import NotesButton from "@/components/notes-button/NotesButton";
+import PasswordsButton from "@/components/passwords-button/PasswordsButton";
 
 export default function AllItemsScreen() {
   const [items, setItems] = useState([]);
@@ -96,18 +98,13 @@ export default function AllItemsScreen() {
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.item}
-            onPress={() => handleItemClick(item)}
-          >
-            <Text style={styles.text}>
-              {item.type === "note" ? "Note Name" : "Password User ID"}:{" "}
-              {item.name || item.website}
-            </Text>
-            <Text style={styles.text}>Tap to reveal {item.type}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={({ item }) =>
+          item.type === "note" ? (
+            <NotesButton item={item} onPress={handleItemClick} />
+          ) : (
+            <PasswordsButton item={item} onPress={handleItemClick} />
+          )
+        }
       />
     </View>
   );
