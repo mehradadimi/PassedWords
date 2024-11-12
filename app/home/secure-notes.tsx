@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { View, Text, FlatList, StyleSheet, Alert } from "react-native";
 import { getDocs, collection, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "@/firebaseConfig";
 import CryptoES from "crypto-es";

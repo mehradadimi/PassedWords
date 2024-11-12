@@ -11,6 +11,8 @@ import { Dialog } from "react-native-elements";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import CryptoES from "crypto-es";
 import { db, auth } from "../../firebaseConfig";
+import { uploadToIPFS } from "@/algorithms/IPFS/UploadToIPFS";
+
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -46,16 +48,19 @@ const AddPasswordFormDialog = ({ isVisible, onClose }) => {
         masterKey
       ).toString();
 
+      const ipfsCID = await uploadToIPFS(encryptedPassword);
+
       const passwordDocRef = doc(collection(db, "users", userId, "passwords"));
 
       await setDoc(passwordDocRef, {
         website: website,
         username: username,
         encryptedPassword: encryptedPassword,
+        ipfsCID: ipfsCID,
         createdAt: new Date(),
       });
 
-      console.log("Password added successfully!");
+      console.log("Password added successfully with IPFS CID!");
 
       onClose();
       setPassword("");
